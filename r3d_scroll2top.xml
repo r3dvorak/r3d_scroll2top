@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="plugin" group="system" method="upgrade">
+    <name>plg_system_r3d_scroll2top</name>
+    <creationDate>2025-08-28</creationDate>
+    <author>Richard Dvorak, r3d.de</author>
+    <copyright>Copyright (C) 2025 Richard Dvorak, https://r3d.de</copyright>
+    <license>GNU GPL v3 or later (https://www.gnu.org/licenses/gpl-3.0.html)</license>
+    <version>5.0.0</version>
+    <description>Minimal Scroll To Top Button for Joomla 5 (PHP 8.4+ compatible)</description>
+    <files>
+        <filename plugin="r3d_scroll2top">r3d_scroll2top.php</filename>
+    </files>
+    <languages>
+        <language tag="en-GB">language/en-GB.plg_system_r3d_scroll2top.ini</language>
+    </languages>
+</extension>
