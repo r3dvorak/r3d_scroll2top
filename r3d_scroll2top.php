@@ -2,11 +2,11 @@
 /**
  * @package     Joomla.Plugin
  * @subpackage  System.r3d_scroll2top
- * @creation    2025-08-28
+ * @creation    2025-08-29
  * @author      Richard Dvorak, r3d.de
  * @copyright   Copyright (C) 2025 Richard Dvorak, https://r3d.de
  * @license     GNU GPL v3 or later (https://www.gnu.org/licenses/gpl-3.0.html)
- * @version     5.1.1
+ * @version     5.3.0
  * @file        plugins/system/r3d_scroll2top/r3d_scroll2top.php
  */
 
@@ -16,6 +16,35 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Factory;
+
+if (!function_exists('r3d_getRGBA')) {
+    function r3d_getRGBA($color, $alpha, $fallback = '#000')
+    {
+        $color = trim((string) $color);
+        $alpha = trim((string) $alpha);
+        if ($color === '') {
+            return $fallback;
+        }
+        if ($alpha === '' || $alpha === '1') {
+            return $color;
+        }
+        // HEX (#fff oder #ffffff) in rgb umwandeln
+        if (preg_match('/^#([0-9a-f]{3,8})$/i', $color, $m)) {
+            $hex = ltrim($m[1], '#');
+            if (strlen($hex) === 3) {
+                $hex = $hex[0] . $hex[0] . $hex[1] . $hex[1] . $hex[2] . $hex[2];
+            }
+            if (strlen($hex) === 6) {
+                $r = hexdec(substr($hex, 0, 2));
+                $g = hexdec(substr($hex, 2, 2));
+                $b = hexdec(substr($hex, 4, 2));
+                return "rgba($r,$g,$b,$alpha)";
+            }
+        }
+        // Sonst als css-Farbe plus alpha: 'color' → 'color' (Browser ignoriert alpha)
+        return $color;
+    }
+}
 
 final class PlgSystemR3d_Scroll2top extends CMSPlugin
 {
@@ -30,16 +59,22 @@ final class PlgSystemR3d_Scroll2top extends CMSPlugin
 
         // Backend-Konfig holen
         $color = $this->params->get('color', '#222222');
+        $colorAlpha = $this->params->get('color_alpha', '1');
+        $hoverColor = $this->params->get('hover_color', '#444444');
+        $hoverColorAlpha = $this->params->get('hover_color_alpha', '0.9');
+        $iconColor = $this->params->get('icon_color', '#ffffff');
+        $iconColorAlpha = $this->params->get('icon_color_alpha', '1');
+
+        $btnColor = r3d_getRGBA($color, $colorAlpha, '#222222');
+        $btnHoverColor = r3d_getRGBA($hoverColor, $hoverColorAlpha, '#444444');
+        $iconColorCss = r3d_getRGBA($iconColor, $iconColorAlpha, '#ffffff');
+
         $position = $this->params->get('position', 'bottom-right');
         $size = (int) $this->params->get('size', 50);
-        $icon = trim($this->params->get('icon', 'arrow'));
-        $customSvg = trim($this->params->get('custom_svg', ''));
+        $iconInput = trim($this->params->get('icon', ''));
+        $iconImage = trim($this->params->get('icon_image', ''));
         $iconRotate = (int) $this->params->get('icon_rotate', 0);
-        $transform = '';
-        if ($iconRotate !== 0) {
-            $transform .= 'rotate(' . $iconRotate . 'deg) ';
-        }
-        $transform .= 'translateY(-20%)';
+        $iconTranslateY = (int) $this->params->get('icon_translate_y', -20);
         $trigger = $this->params->get('trigger', 'window');
         $fade = (int) $this->params->get('fade', 1);
 
@@ -67,17 +102,31 @@ final class PlgSystemR3d_Scroll2top extends CMSPlugin
             ? "btn.style.opacity=0; setTimeout(function(){btn.style.display='none';},400);"
             : "btn.style.display='none';";
 
-        // Icon-Ausgabe
-        if ($customSvg !== '') {
-            // Eigenes SVG direkt verwenden (ohne htmlspecialchars!)
-            $iconHtml = '<span class="r3d-scroll2top-icon" style="display:inline-block;vertical-align:middle;line-height:1;' . $transform . '">' . $customSvg . '</span>';
-        } elseif ($icon !== '' && $icon !== 'arrow') {
-            // Eigenes Zeichen, Unicode, Emoji, Caret etc. – mit Rotation!
-            $iconHtml = '<span class="r3d-scroll2top-icon" style="font-size:1.7em;display:inline-block;vertical-align:middle;line-height:1;' . $transform . '">' . htmlspecialchars($icon, ENT_QUOTES | ENT_HTML5, 'UTF-8') . '</span>';
-        } else {
-            // Fallback: Standardpfeil
-            $iconHtml = '<span class="r3d-scroll2top-icon" style="font-size:1.7em;display:inline-block;vertical-align:middle;line-height:1;">&#8679;</span>';
+        // Transformation fürs Icon (Rotation/Verschiebung als CSS-Variable)
+        $transform = '';
+        if ($iconRotate !== 0) {
+            $transform .= 'rotate(' . $iconRotate . 'deg) ';
         }
+        if ($iconTranslateY !== 0) {
+            $transform .= 'translateY(' . $iconTranslateY . '%)';
+        }
+        $transformStyle = $transform !== '' ? '--r3d-icon-transform:' . $transform . ';' : '';
+        $iconStyle = 'display:inline-block;vertical-align:middle;line-height:1;' . $transformStyle . 'color:' . $iconColorCss . ';';
+
+        // Icon-Ausgabe: Alles immer in Wrapper-Span (für Zittern/Animation)
+        $iconHtml = '<span class="r3d-scroll2top-icon" style="' . $iconStyle . '">';
+        if ($iconImage !== '') {
+            $iconHtml .= '<img src="' . htmlspecialchars($iconImage, ENT_QUOTES | ENT_HTML5, 'UTF-8') . '" alt="Top" style="max-width:60%;max-height:60%;border:none;box-shadow:none;" />';
+        } elseif ($iconInput !== '') {
+            if (stripos($iconInput, '<svg') !== false) {
+                $iconHtml .= $iconInput;
+            } else {
+                $iconHtml .= htmlspecialchars($iconInput, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+            }
+        } else {
+            $iconHtml .= '&#8679;';
+        }
+        $iconHtml .= '</span>';
 
         // CSS, HTML, JS
         $buttonHtml = '
@@ -89,7 +138,7 @@ final class PlgSystemR3d_Scroll2top extends CMSPlugin
     display: none;
     width: ' . $size . 'px;
     height: ' . $size . 'px;
-    background: ' . $color . ';
+    background: ' . $btnColor . ';
     color: #fff;
     border-radius: 50%;
     text-align: center;
@@ -102,9 +151,31 @@ final class PlgSystemR3d_Scroll2top extends CMSPlugin
     user-select: none;
 }
 #r3d-scroll2top:focus, #r3d-scroll2top:hover {
-    background: #444;
+    background: ' . $btnHoverColor . ';
     opacity: 1 !important;
     outline: none;
+}
+/* --- SHAKER ANIMATION: --- */
+.r3d-scroll2top-icon {
+    transform: var(--r3d-icon-transform, none);
+    will-change: transform;
+}
+#r3d-scroll2top:focus .r3d-scroll2top-icon,
+#r3d-scroll2top:hover .r3d-scroll2top-icon {
+    animation: r3d-shake 0.6s linear 1;
+}
+@keyframes r3d-shake {
+    0%   { transform: var(--r3d-icon-transform, none) translateX(0); }
+    10%  { transform: var(--r3d-icon-transform, none) translateX(-2px); }
+    20%  { transform: var(--r3d-icon-transform, none) translateX(2px); }
+    30%  { transform: var(--r3d-icon-transform, none) translateX(-2px); }
+    40%  { transform: var(--r3d-icon-transform, none) translateX(2px); }
+    50%  { transform: var(--r3d-icon-transform, none) translateX(-1px); }
+    60%  { transform: var(--r3d-icon-transform, none) translateX(1px); }
+    70%  { transform: var(--r3d-icon-transform, none) translateX(-1px); }
+    80%  { transform: var(--r3d-icon-transform, none) translateX(1px); }
+    90%  { transform: var(--r3d-icon-transform, none) translateX(-1px); }
+    100% { transform: var(--r3d-icon-transform, none) translateX(0); }
 }
 @media (max-width: 600px) {
     #r3d-scroll2top {
@@ -121,18 +192,21 @@ final class PlgSystemR3d_Scroll2top extends CMSPlugin
 <script>
 (function() {
     var btn = document.getElementById("r3d-scroll2top");
+    var isVisible = false;
     function toggleBtn() {
         var triggerVal = "' . addslashes($trigger) . '";
         var show = false;
         if (triggerVal === "window") {
-            show = window.scrollY > window.innerHeight;
+            show = window.scrollY >= window.innerHeight;
         } else if (!isNaN(parseInt(triggerVal))) {
-            show = window.scrollY > parseInt(triggerVal);
+            show = window.scrollY >= parseInt(triggerVal);
         }
-        if (show) {
+        if (show && !isVisible) {
             ' . $jsShow . '
-        } else {
+            isVisible = true;
+        } else if (!show && isVisible) {
             ' . $jsHide . '
+            isVisible = false;
         }
     }
     window.addEventListener("scroll", toggleBtn);

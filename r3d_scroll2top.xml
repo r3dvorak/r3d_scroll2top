@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="plugin" group="system" method="upgrade">
     <name>plg_system_r3d_scroll2top</name>
-    <creationDate>2025-08-28</creationDate>
+    <creationDate>2025-08-29</creationDate>
     <author>Richard Dvorak, r3d.de</author>
     <copyright>Copyright (C) 2025 Richard Dvorak, https://r3d.de</copyright>
     <license>GNU GPL v3 or later (https://www.gnu.org/licenses/gpl-3.0.html)</license>
-    <version>5.1.1</version>
+    <version>5.3.0</version>
     <description>PLG_SYSTEM_R3D_SCROLL2TOP_XML_DESCRIPTION</description>
     <files>
         <filename plugin="r3d_scroll2top">r3d_scroll2top.php</filename>
+        <filename>language/en-GB.plg_system_r3d_scroll2top.ini</filename>
+        <filename>language/de-DE.plg_system_r3d_scroll2top.ini</filename>
     </files>
     <languages>
         <language tag="en-GB">language/en-GB.plg_system_r3d_scroll2top.ini</language>
@@ -16,46 +18,82 @@
     </languages>
     <config>
         <fields name="params">
-            <fieldset name="basic">
+            <fieldset name="basic" label="PLG_SYSTEM_R3D_SCROLL2TOP_TAB_BASIC">
+                <!-- Immer sichtbarer Hilfetext ganz oben -->
+                <field
+                    name="plugininfo"
+                    type="spacer"
+                    label="PLG_SYSTEM_R3D_SCROLL2TOP_HELP_TITLE"
+                    description="PLG_SYSTEM_R3D_SCROLL2TOP_HELP_HTML"/>
                 <field name="color" type="color"
-                       label="PLG_SYSTEM_R3D_SCROLL2TOP_COLOR_LABEL"
-                       description="PLG_SYSTEM_R3D_SCROLL2TOP_COLOR_DESC"
-                       default="#222222"/>
+                    label="PLG_SYSTEM_R3D_SCROLL2TOP_COLOR_LABEL"
+                    description="PLG_SYSTEM_R3D_SCROLL2TOP_COLOR_DESC"
+                    default="#222222"/>
+                <field name="color_alpha" type="text"
+                    label="PLG_SYSTEM_R3D_SCROLL2TOP_COLOR_ALPHA_LABEL"
+                    description="PLG_SYSTEM_R3D_SCROLL2TOP_COLOR_ALPHA_DESC"
+                    default="1" />
+                <field name="hover_color" type="color"
+                    label="PLG_SYSTEM_R3D_SCROLL2TOP_HOVER_COLOR_LABEL"
+                    description="PLG_SYSTEM_R3D_SCROLL2TOP_HOVER_COLOR_DESC"
+                    default="#444444" />
+                <field name="hover_color_alpha" type="text"
+                    label="PLG_SYSTEM_R3D_SCROLL2TOP_HOVER_COLOR_ALPHA_LABEL"
+                    description="PLG_SYSTEM_R3D_SCROLL2TOP_HOVER_COLOR_ALPHA_DESC"
+                    default="0.9" />
                 <field name="position" type="list"
-                       label="PLG_SYSTEM_R3D_SCROLL2TOP_POSITION_LABEL"
-                       description="PLG_SYSTEM_R3D_SCROLL2TOP_POSITION_DESC"
-                       default="bottom-right">
+                    label="PLG_SYSTEM_R3D_SCROLL2TOP_POSITION_LABEL"
+                    description="PLG_SYSTEM_R3D_SCROLL2TOP_POSITION_DESC"
+                    default="bottom-right">
                     <option value="bottom-right">PLG_SYSTEM_R3D_SCROLL2TOP_POSITION_BOTTOMRIGHT</option>
                     <option value="bottom-left">PLG_SYSTEM_R3D_SCROLL2TOP_POSITION_BOTTOMLEFT</option>
                     <option value="top-right">PLG_SYSTEM_R3D_SCROLL2TOP_POSITION_TOPRIGHT</option>
                     <option value="top-left">PLG_SYSTEM_R3D_SCROLL2TOP_POSITION_TOPLEFT</option>
                 </field>
+                <field name="icon_image" type="media"
+                    label="PLG_SYSTEM_R3D_SCROLL2TOP_ICON_IMAGE_LABEL"
+                    description="PLG_SYSTEM_R3D_SCROLL2TOP_ICON_IMAGE_DESC"
+                    directory="images"
+                    preview="true"
+                    accept="image/png,image/gif,image/webp"/>
                 <field name="icon" type="text"
-                       label="PLG_SYSTEM_R3D_SCROLL2TOP_ICON_LABEL"
-                       description="PLG_SYSTEM_R3D_SCROLL2TOP_ICON_DESC"
-                       default="arrow"/>
-                <field name="custom_svg" type="textarea"
-                       label="PLG_SYSTEM_R3D_SCROLL2TOP_SVG_LABEL"
-                       description="PLG_SYSTEM_R3D_SCROLL2TOP_SVG_DESC"/>
+                    label="PLG_SYSTEM_R3D_SCROLL2TOP_ICON_LABEL"
+                    description="PLG_SYSTEM_R3D_SCROLL2TOP_ICON_DESC"
+                    default="↑"/>
+                <field name="icon_color" type="color"
+                    label="PLG_SYSTEM_R3D_SCROLL2TOP_ICON_COLOR_LABEL"
+                    description="PLG_SYSTEM_R3D_SCROLL2TOP_ICON_COLOR_DESC"
+                    default="#ffffff" />
+                <field name="icon_color_alpha" type="text"
+                    label="PLG_SYSTEM_R3D_SCROLL2TOP_ICON_COLOR_ALPHA_LABEL"
+                    description="PLG_SYSTEM_R3D_SCROLL2TOP_ICON_COLOR_ALPHA_DESC"
+                    default="1" />
                 <field name="icon_rotate"
-                        type="number"
-                        label="PLG_SYSTEM_R3D_SCROLL2TOP_ICON_ROTATE_LABEL"
-                        description="PLG_SYSTEM_R3D_SCROLL2TOP_ICON_ROTATE_DESC"
-                        default="0"
-                        min="-360"
-                        max="360" />
+                    type="number"
+                    label="PLG_SYSTEM_R3D_SCROLL2TOP_ICON_ROTATE_LABEL"
+                    description="PLG_SYSTEM_R3D_SCROLL2TOP_ICON_ROTATE_DESC"
+                    default="0"
+                    min="-360"
+                    max="360" />
+                <field name="icon_translate_y"
+                    type="number"
+                    label="PLG_SYSTEM_R3D_SCROLL2TOP_ICON_TRANSLATEY_LABEL"
+                    description="PLG_SYSTEM_R3D_SCROLL2TOP_ICON_TRANSLATEY_DESC"
+                    default="-20"
+                    min="-100"
+                    max="100" />
                 <field name="size" type="number"
-                       label="PLG_SYSTEM_R3D_SCROLL2TOP_SIZE_LABEL"
-                       description="PLG_SYSTEM_R3D_SCROLL2TOP_SIZE_DESC"
-                       default="50" min="24" max="120"/>
+                    label="PLG_SYSTEM_R3D_SCROLL2TOP_SIZE_LABEL"
+                    description="PLG_SYSTEM_R3D_SCROLL2TOP_SIZE_DESC"
+                    default="50" min="24" max="120"/>
                 <field name="trigger" type="text"
-                       label="PLG_SYSTEM_R3D_SCROLL2TOP_TRIGGER_LABEL"
-                       description="PLG_SYSTEM_R3D_SCROLL2TOP_TRIGGER_DESC"
-                       default="window"/>
+                    label="PLG_SYSTEM_R3D_SCROLL2TOP_TRIGGER_LABEL"
+                    description="PLG_SYSTEM_R3D_SCROLL2TOP_TRIGGER_DESC"
+                    default="window"/>
                 <field name="fade" type="radio"
-                       label="PLG_SYSTEM_R3D_SCROLL2TOP_FADE_LABEL"
-                       description="PLG_SYSTEM_R3D_SCROLL2TOP_FADE_DESC"
-                       default="1">
+                    label="PLG_SYSTEM_R3D_SCROLL2TOP_FADE_LABEL"
+                    description="PLG_SYSTEM_R3D_SCROLL2TOP_FADE_DESC"
+                    default="1">
                     <option value="1">JYES</option>
                     <option value="0">JNO</option>
                 </field>
