@@ -6,7 +6,7 @@
  * @author      Richard Dvorak, r3d.de
  * @copyright   Copyright (C) 2025 Richard Dvorak, https://r3d.de
  * @license     GNU GPL v3 or later (https://www.gnu.org/licenses/gpl-3.0.html)
- * @version     5.3.0
+ * @version     5.3.3
  * @file        plugins/system/r3d_scroll2top/r3d_scroll2top.php
  */
 
@@ -26,6 +26,19 @@ if (!function_exists('r3d_getRGBA')) {
             return $fallback;
         }
         if ($alpha === '' || $alpha === '1') {
+            // Immer rgba, auch wenn alpha = 1:
+            if (preg_match('/^#([0-9a-f]{3,8})$/i', $color, $m)) {
+                $hex = ltrim($m[1], '#');
+                if (strlen($hex) === 3) {
+                    $hex = $hex[0] . $hex[0] . $hex[1] . $hex[1] . $hex[2] . $hex[2];
+                }
+                if (strlen($hex) === 6) {
+                    $r = hexdec(substr($hex, 0, 2));
+                    $g = hexdec(substr($hex, 2, 2));
+                    $b = hexdec(substr($hex, 4, 2));
+                    return "rgba($r,$g,$b,1)";
+                }
+            }
             return $color;
         }
         // HEX (#fff oder #ffffff) in rgb umwandeln
@@ -58,25 +71,29 @@ final class PlgSystemR3d_Scroll2top extends CMSPlugin
         }
 
         // Backend-Konfig holen
-        $color = $this->params->get('color', '#222222');
-        $colorAlpha = $this->params->get('color_alpha', '1');
-        $hoverColor = $this->params->get('hover_color', '#444444');
-        $hoverColorAlpha = $this->params->get('hover_color_alpha', '0.9');
+        $color = $this->params->get('color', '#ff00e6');
+        $colorAlpha = $this->params->get('color_alpha', '0.7');
+        $hoverColor = $this->params->get('hover_color', '#00e6ff');
+        $hoverColorAlpha = $this->params->get('hover_color_alpha', '0.7');
         $iconColor = $this->params->get('icon_color', '#ffffff');
         $iconColorAlpha = $this->params->get('icon_color_alpha', '1');
 
-        $btnColor = r3d_getRGBA($color, $colorAlpha, '#222222');
-        $btnHoverColor = r3d_getRGBA($hoverColor, $hoverColorAlpha, '#444444');
+        $btnColor = r3d_getRGBA($color, $colorAlpha, '#ff00e6');
+        $btnHoverColor = r3d_getRGBA($hoverColor, $hoverColorAlpha, '#00e6ff');
         $iconColorCss = r3d_getRGBA($iconColor, $iconColorAlpha, '#ffffff');
 
         $position = $this->params->get('position', 'bottom-right');
         $size = (int) $this->params->get('size', 50);
-        $iconInput = trim($this->params->get('icon', ''));
+        $iconInput = trim($this->params->get('icon', '⬆'));
         $iconImage = trim($this->params->get('icon_image', ''));
         $iconRotate = (int) $this->params->get('icon_rotate', 0);
         $iconTranslateY = (int) $this->params->get('icon_translate_y', -20);
         $trigger = $this->params->get('trigger', 'window');
         $fade = (int) $this->params->get('fade', 1);
+        $iconJitter = (int) $this->params->get('icon_jitter', 1);
+        $buttonShadow = (int) $this->params->get('button_shadow', 1);
+
+        $boxShadow = $buttonShadow ? 'box-shadow: 0 2px 8px rgba(0,0,0,0.14);' : '';
 
         // Position in CSS umsetzen
         $cssPos = [];
@@ -128,38 +145,10 @@ final class PlgSystemR3d_Scroll2top extends CMSPlugin
         }
         $iconHtml .= '</span>';
 
-        // CSS, HTML, JS
-        $buttonHtml = '
-<style>
-#r3d-scroll2top {
-    position: fixed;
-    ' . $cssPos[0] . '
-    z-index: 9999;
-    display: none;
-    width: ' . $size . 'px;
-    height: ' . $size . 'px;
-    background: ' . $btnColor . ';
-    color: #fff;
-    border-radius: 50%;
-    text-align: center;
-    line-height: ' . $size . 'px;
-    font-size: 26px;
-    cursor: pointer;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.14);
-    ' . ($fade ? 'transition: opacity 0.4s; opacity: 0.85;' : '') . '
-    border: none;
-    user-select: none;
-}
-#r3d-scroll2top:focus, #r3d-scroll2top:hover {
-    background: ' . $btnHoverColor . ';
-    opacity: 1 !important;
-    outline: none;
-}
-/* --- SHAKER ANIMATION: --- */
-.r3d-scroll2top-icon {
-    transform: var(--r3d-icon-transform, none);
-    will-change: transform;
-}
+        // Jitter-Animation CSS
+        $jitterCss = '';
+        if ($iconJitter) {
+            $jitterCss = '
 #r3d-scroll2top:focus .r3d-scroll2top-icon,
 #r3d-scroll2top:hover .r3d-scroll2top-icon {
     animation: r3d-shake 0.6s linear 1;
@@ -177,6 +166,41 @@ final class PlgSystemR3d_Scroll2top extends CMSPlugin
     90%  { transform: var(--r3d-icon-transform, none) translateX(-1px); }
     100% { transform: var(--r3d-icon-transform, none) translateX(0); }
 }
+';
+        }
+
+        // CSS, HTML, JS
+        $buttonHtml = '
+<style>
+#r3d-scroll2top {
+    position: fixed;
+    ' . $cssPos[0] . '
+    z-index: 9999;
+    display: none;
+    width: ' . $size . 'px;
+    height: ' . $size . 'px;
+    background: ' . $btnColor . ';
+    color: #fff;
+    border-radius: 50%;
+    text-align: center;
+    line-height: ' . $size . 'px;
+    font-size: 26px;
+    cursor: pointer;
+    ' . $boxShadow . '
+    ' . ($fade ? 'transition: opacity 0.4s; opacity: 0.85;' : '') . '
+    border: none;
+    user-select: none;
+}
+#r3d-scroll2top:focus, #r3d-scroll2top:hover {
+    background: ' . $btnHoverColor . ';
+    opacity: 1 !important;
+    outline: none;
+}
+.r3d-scroll2top-icon {
+    transform: var(--r3d-icon-transform, none);
+    will-change: transform;
+}
+' . $jitterCss . '
 @media (max-width: 600px) {
     #r3d-scroll2top {
         width: 38px;

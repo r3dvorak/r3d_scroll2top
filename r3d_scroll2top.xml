@@ -1,20 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="plugin" group="system" method="upgrade">
-    <name>plg_system_r3d_scroll2top</name>
+    <name>PLG_SYSTEM_R3D_SCROLL2TOP</name>
     <creationDate>2025-08-29</creationDate>
     <author>Richard Dvorak, r3d.de</author>
     <copyright>Copyright (C) 2025 Richard Dvorak, https://r3d.de</copyright>
     <license>GNU GPL v3 or later (https://www.gnu.org/licenses/gpl-3.0.html)</license>
-    <version>5.3.0</version>
+    <version>5.3.3</version>
     <description>PLG_SYSTEM_R3D_SCROLL2TOP_XML_DESCRIPTION</description>
     <files>
         <filename plugin="r3d_scroll2top">r3d_scroll2top.php</filename>
-        <filename>language/en-GB.plg_system_r3d_scroll2top.ini</filename>
-        <filename>language/de-DE.plg_system_r3d_scroll2top.ini</filename>
+        <filename>language/en-GB/en-GB.plg_system_r3d_scroll2top.sys.ini</filename>
+        <filename>language/en-GB/en-GB.plg_system_r3d_scroll2top.ini</filename>
+        <filename>language/de-DE/de-DE.plg_system_r3d_scroll2top.sys.ini</filename>
+        <filename>language/de-DE/de-DE.plg_system_r3d_scroll2top.ini</filename>
     </files>
     <languages>
-        <language tag="en-GB">language/en-GB.plg_system_r3d_scroll2top.ini</language>
-        <language tag="de-DE">language/de-DE.plg_system_r3d_scroll2top.ini</language>
+        <!-- EN -->
+        <language tag="en-GB" client="administrator">language/en-GB/en-GB.plg_system_r3d_scroll2top.sys.ini</language>
+        <language tag="en-GB" client="site">language/en-GB/en-GB.plg_system_r3d_scroll2top.ini</language>
+        <!-- DE -->
+        <language tag="de-DE" client="administrator">language/de-DE/de-DE.plg_system_r3d_scroll2top.sys.ini</language>
+        <language tag="de-DE" client="site">language/de-DE/de-DE.plg_system_r3d_scroll2top.ini</language>
     </languages>
     <config>
         <fields name="params">
@@ -28,19 +34,26 @@
                 <field name="color" type="color"
                     label="PLG_SYSTEM_R3D_SCROLL2TOP_COLOR_LABEL"
                     description="PLG_SYSTEM_R3D_SCROLL2TOP_COLOR_DESC"
-                    default="#222222"/>
+                    default="#ff00e6"/>
                 <field name="color_alpha" type="text"
                     label="PLG_SYSTEM_R3D_SCROLL2TOP_COLOR_ALPHA_LABEL"
                     description="PLG_SYSTEM_R3D_SCROLL2TOP_COLOR_ALPHA_DESC"
-                    default="1" />
+                    default="0.7" />
                 <field name="hover_color" type="color"
                     label="PLG_SYSTEM_R3D_SCROLL2TOP_HOVER_COLOR_LABEL"
                     description="PLG_SYSTEM_R3D_SCROLL2TOP_HOVER_COLOR_DESC"
-                    default="#444444" />
+                    default="#00e6ff" />
                 <field name="hover_color_alpha" type="text"
                     label="PLG_SYSTEM_R3D_SCROLL2TOP_HOVER_COLOR_ALPHA_LABEL"
                     description="PLG_SYSTEM_R3D_SCROLL2TOP_HOVER_COLOR_ALPHA_DESC"
-                    default="0.9" />
+                    default="0.7" />
+                <field name="button_shadow" type="radio"
+                    label="PLG_SYSTEM_R3D_SCROLL2TOP_BUTTON_SHADOW_LABEL"
+                    description="PLG_SYSTEM_R3D_SCROLL2TOP_BUTTON_SHADOW_DESC"
+                    default="1">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
                 <field name="position" type="list"
                     label="PLG_SYSTEM_R3D_SCROLL2TOP_POSITION_LABEL"
                     description="PLG_SYSTEM_R3D_SCROLL2TOP_POSITION_DESC"
@@ -93,6 +106,13 @@
                 <field name="fade" type="radio"
                     label="PLG_SYSTEM_R3D_SCROLL2TOP_FADE_LABEL"
                     description="PLG_SYSTEM_R3D_SCROLL2TOP_FADE_DESC"
+                    default="1">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field name="icon_jitter" type="radio"
+                    label="PLG_SYSTEM_R3D_SCROLL2TOP_ICON_JITTER_LABEL"
+                    description="PLG_SYSTEM_R3D_SCROLL2TOP_ICON_JITTER_DESC"
                     default="1">
                     <option value="1">JYES</option>
                     <option value="0">JNO</option>
