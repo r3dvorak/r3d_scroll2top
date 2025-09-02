@@ -5,7 +5,7 @@
     <author>Richard Dvorak, r3d.de</author>
     <copyright>Copyright (C) 2025 Richard Dvorak, https://r3d.de</copyright>
     <license>GNU GPL v3 or later (https://www.gnu.org/licenses/gpl-3.0.html)</license>
-    <version>5.3.3</version>
+    <version>5.3.4</version>
     <description>PLG_SYSTEM_R3D_SCROLL2TOP_XML_DESCRIPTION</description>
     <files>
         <filename plugin="r3d_scroll2top">r3d_scroll2top.php</filename>
@@ -120,4 +120,9 @@
             </fieldset>
         </fields>
     </config>
+    <updateservers>
+        <server type="extension" name="R3D Scroll To Top Updates" priority="1">
+            https://www.r3d.de/joomlaextensions/updates/r3d_scroll2top.xml
+        </server>
+    </updateservers>
 </extension>
