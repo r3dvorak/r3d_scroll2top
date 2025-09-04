@@ -1,0 +1,84 @@
+name: Build & Release R3D Scroll To Top ZIP
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version (e.g. 5.3.4)'
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  build_release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Stage plugin into r3d_scroll2top/ no matter where files live in the repo
+      - name: Stage plugin into folder
+        id: stage
+        shell: bash
+        run: |
+          set -e
+          STAGE="r3d_scroll2top"
+
+          if [ -f "r3d_scroll2top/r3d_scroll2top.xml" ]; then
+            echo "✅ Found plugin already in folder: $STAGE"
+          elif [ -f "plugins/system/r3d_scroll2top/r3d_scroll2top.xml" ]; then
+            echo "ℹ️ Staging from plugins/system/r3d_scroll2top/"
+            rm -rf "$STAGE"
+            mkdir -p "$STAGE"
+            cp -r plugins/system/r3d_scroll2top/* "$STAGE"/
+          else
+            echo "ℹ️ Staging from repo root..."
+            rm -rf "$STAGE"
+            mkdir -p "$STAGE"
+
+            # Copy common plugin files if present at repo root
+            for p in r3d_scroll2top.php r3d_scroll2top.xml helper.php script.php; do
+              if [ -f "$p" ]; then cp "$p" "$STAGE"/; fi
+            done
+
+            # Copy typical plugin folders if present at repo root
+            for d in src services forms language media assets tmpl css js vendor; do
+              if [ -d "$d" ]; then cp -r "$d" "$STAGE"/; fi
+            done
+          fi
+
+          # Sanity check: must have manifest after staging
+          if [ ! -f "$STAGE/r3d_scroll2top.xml" ]; then
+            echo "❌ Cannot find $STAGE/r3d_scroll2top.xml after staging."
+            echo "Contents of $STAGE:"
+            ls -la "$STAGE" || true
+            exit 12
+          fi
+
+          echo "stage_dir=$STAGE" >> "$GITHUB_OUTPUT"
+
+      - name: Build ZIP
+        shell: bash
+        run: |
+          set -e
+          mkdir -p build
+          OUT="build/${{ steps.stage.outputs.stage_dir }}_v${{ github.event.inputs.version }}.zip"
+          zip -r "$OUT" "${{ steps.stage.outputs.stage_dir }}" \
+            -x "${{ steps.stage.outputs.stage_dir }}/.git*" \
+               "${{ steps.stage.outputs.stage_dir }}/.github/*" \
+               "${{ steps.stage.outputs.stage_dir }}/README.md" \
+               "${{ steps.stage.outputs.stage_dir }}/CHANGELOG.md"
+          echo "Built: $OUT"
+
+      - name: Create / Update GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ github.event.inputs.version }}
+          name: Release v${{ github.event.inputs.version }}
+          make_latest: true
+          generate_release_notes: true
+          files: build/*.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
