@@ -10,3 +10,8 @@ README.local.tmp
 .env
 .env.local
 .env.*.local
+
+03_docs/
+05_updates/
+.env.publish
+project.json
