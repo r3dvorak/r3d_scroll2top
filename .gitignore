@@ -2,3 +2,8 @@
 *.zip
 *.bak
 *.tmp
+*.code-workspace
+04_dist/
+02_build/
+03_docs/logs/
+README.local.tmp
