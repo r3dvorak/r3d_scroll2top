@@ -14,7 +14,7 @@
       "creationDate": "2025-08-29",
       "build": 1,
       "dbTablePrefix": "r3d_scroll2top",
-      "version": "6.0.0",
+      "version": "6.0.1",
       "languagePrefix": "PLG_SYSTEM_R3D_SCROLL2TOP",
       "extensionTitle": "plg_system_r3d_scroll2top"
     },
@@ -34,3 +34,4 @@
   },
   "schemaVersion": "1.3"
 }
+

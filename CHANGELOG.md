@@ -2,16 +2,17 @@
 
 Alle nennenswerten Aenderungen an diesem Projekt werden hier dokumentiert.
 
-## [6.0.0] - 2026-05-29
+## [6.0.1] - 2026-05-29
 
+- Uptick after JED naming and package-cleanup fixes for re-test.
 - JED-Checker-Fixes umgesetzt:
   - GPL-Hinweis in `script.php` ergaenzt.
   - Deprecated-Import in `script.php` von `Joomla\CMS\Filesystem\File` auf `Joomla\Filesystem\File` umgestellt.
   - Sprachdateien EN/DE bereinigt (duplizierte Keys entfernt, String-Format vereinheitlicht, URLs auf `extensions.r3d.de` aktualisiert).
 - Manifest aktualisiert:
-  - Plugin-Version auf `6.0.0`.
+  - Plugin-Version auf `6.0.1`.
   - Update-Server-Pfad auf `r3d_scroll2top.xml` korrigiert.
-- Sys-Sprachstrings auf JED-Namenskonvention fuer den Installnamen angepasst (`Plugin - ...`).
+- Sys-Sprachstrings auf JED-Namenskonvention fuer den Installnamen angepasst (`System - ...`).
 
 ## [5.3.8] - 2026-05-29
 
@@ -46,3 +47,5 @@ Alle nennenswerten Aenderungen an diesem Projekt werden hier dokumentiert.
 - Update-Server-URL im Manifest auf neues Ziel umgestellt:
   `https://extensions.r3d.de/extensions/r3d-scroll-to-top-button/r3d_scroll2top.xml`
 - Versionswerte auf `5.3.5` angehoben.
+
+
