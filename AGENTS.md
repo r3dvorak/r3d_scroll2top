@@ -19,6 +19,6 @@
 - Standard: Uptick nach SemVer, ausser explizit `kein uptick`
 - Commit-Messages beginnen mit `vX.Y.Z`
 - Nach Commit: Push
-- Bei Versionsaenderung: gleichlautenden Tag erzeugen und pushen
-- GitHub Release zum Tag erstellen oder aktualisieren
+- Bei Versionsaenderung: Tag nur auf explizite User-Anweisung erzeugen und pushen
+- GitHub Release nur auf explizite User-Anweisung erstellen oder aktualisieren
 - Publish-Ziel fuer Extensions: `https://extensions.r3d.de/extensions/`

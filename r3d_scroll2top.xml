@@ -34,19 +34,19 @@
                 <field name="color" type="color"
                     label="PLG_SYSTEM_R3D_SCROLL2TOP_COLOR_LABEL"
                     description="PLG_SYSTEM_R3D_SCROLL2TOP_COLOR_DESC"
-                    default="#ff00e6"/>
+                    default="#4d79b3"/>
                 <field name="color_alpha" type="text"
                     label="PLG_SYSTEM_R3D_SCROLL2TOP_COLOR_ALPHA_LABEL"
                     description="PLG_SYSTEM_R3D_SCROLL2TOP_COLOR_ALPHA_DESC"
-                    default="0.7" />
+                    default="0.9" />
                 <field name="hover_color" type="color"
                     label="PLG_SYSTEM_R3D_SCROLL2TOP_HOVER_COLOR_LABEL"
                     description="PLG_SYSTEM_R3D_SCROLL2TOP_HOVER_COLOR_DESC"
-                    default="#00e6ff" />
+                    default="#3d618f" />
                 <field name="hover_color_alpha" type="text"
                     label="PLG_SYSTEM_R3D_SCROLL2TOP_HOVER_COLOR_ALPHA_LABEL"
                     description="PLG_SYSTEM_R3D_SCROLL2TOP_HOVER_COLOR_ALPHA_DESC"
-                    default="0.7" />
+                    default="0.9" />
                 <field name="button_shadow" type="radio"
                     label="PLG_SYSTEM_R3D_SCROLL2TOP_BUTTON_SHADOW_LABEL"
                     description="PLG_SYSTEM_R3D_SCROLL2TOP_BUTTON_SHADOW_DESC"
