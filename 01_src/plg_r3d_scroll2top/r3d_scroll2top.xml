@@ -5,10 +5,12 @@
     <author>Richard Dvorak, r3d.de</author>
     <copyright>Copyright (C) 2025 Richard Dvorak, https://r3d.de</copyright>
     <license>GNU GPL v3 or later (https://www.gnu.org/licenses/gpl-3.0.html)</license>
-    <version>5.3.5</version>
+    <version>5.3.6</version>
     <description>PLG_SYSTEM_R3D_SCROLL2TOP_XML_DESCRIPTION</description>
+    <scriptfile>script.php</scriptfile>
     <files>
         <filename plugin="r3d_scroll2top">r3d_scroll2top.php</filename>
+        <filename>script.php</filename>
         <filename>language/en-GB/en-GB.plg_system_r3d_scroll2top.sys.ini</filename>
         <filename>language/en-GB/en-GB.plg_system_r3d_scroll2top.ini</filename>
         <filename>language/de-DE/de-DE.plg_system_r3d_scroll2top.sys.ini</filename>

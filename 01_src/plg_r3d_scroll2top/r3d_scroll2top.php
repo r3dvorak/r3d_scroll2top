@@ -6,7 +6,7 @@
  * @author      Richard Dvorak, r3d.de
  * @copyright   Copyright (C) 2025 Richard Dvorak, https://r3d.de
  * @license     GNU GPL v3 or later (https://www.gnu.org/licenses/gpl-3.0.html)
- * @version     5.3.5
+ * @version     5.3.6
  * @file        plugins/system/r3d_scroll2top/r3d_scroll2top.php
  */
 
@@ -65,8 +65,13 @@ final class PlgSystemR3d_Scroll2top extends CMSPlugin
     {
         $app = Factory::getApplication();
 
-        // Nur im Frontend aktiv
+        // Nur im Frontend und nur fuer HTML-Responses aktiv.
         if ($app->isClient('administrator')) {
+            return;
+        }
+
+        $document = $app->getDocument();
+        if (!$document || strtolower((string) $document->getType()) !== 'html') {
             return;
         }
 
@@ -248,8 +253,17 @@ final class PlgSystemR3d_Scroll2top extends CMSPlugin
 </script>
 ';
 
-        // Direkt vor </body> einfügen
+        // Direkt vor </body> einfuegen, aber nur wenn ein Body-Tag vorhanden ist.
         $body = $app->getBody();
+        if (!is_string($body) || $body === '' || stripos($body, '</body>') === false) {
+            return;
+        }
+
+        // Defensiv: Keine doppelte Injektion, falls der Handler mehrfach feuert.
+        if (stripos($body, 'id="r3d-scroll2top"') !== false) {
+            return;
+        }
+
         $body = str_ireplace('</body>', $buttonHtml . '</body>', $body);
         $app->setBody($body);
     }
