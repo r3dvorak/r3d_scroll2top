@@ -2,6 +2,10 @@
 
 Alle nennenswerten Aenderungen an diesem Projekt werden hier dokumentiert.
 
+## [6.0.2] - 2026-05-29
+
+- Uptick with Plugins Manager filtered-link text update in SYS descriptions.
+
 ## [6.0.1] - 2026-05-29
 
 - Uptick after JED naming and package-cleanup fixes for re-test.
@@ -47,5 +51,7 @@ Alle nennenswerten Aenderungen an diesem Projekt werden hier dokumentiert.
 - Update-Server-URL im Manifest auf neues Ziel umgestellt:
   `https://extensions.r3d.de/extensions/r3d-scroll-to-top-button/r3d_scroll2top.xml`
 - Versionswerte auf `5.3.5` angehoben.
+
+
 
 

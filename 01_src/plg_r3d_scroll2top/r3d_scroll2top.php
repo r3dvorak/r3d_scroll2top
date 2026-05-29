@@ -6,7 +6,7 @@
  * @author      Richard Dvorak, r3d.de
  * @copyright   Copyright (C) 2025 Richard Dvorak, https://extensions.r3d.de
  * @license     GNU GPL v3 or later (https://www.gnu.org/licenses/gpl-3.0.html)
- * @version     6.0.1
+ * @version     6.0.2
  * @file        plugins/system/r3d_scroll2top/r3d_scroll2top.php
  */
 
@@ -278,4 +278,5 @@ final class PlgSystemR3d_Scroll2top extends CMSPlugin
         $app->setBody($body);
     }
 }
+
 
