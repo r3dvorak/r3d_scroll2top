@@ -2,6 +2,17 @@
 
 Alle nennenswerten Aenderungen an diesem Projekt werden hier dokumentiert.
 
+## [6.0.0] - 2026-05-29
+
+- JED-Checker-Fixes umgesetzt:
+  - GPL-Hinweis in `script.php` ergaenzt.
+  - Deprecated-Import in `script.php` von `Joomla\CMS\Filesystem\File` auf `Joomla\Filesystem\File` umgestellt.
+  - Sprachdateien EN/DE bereinigt (duplizierte Keys entfernt, String-Format vereinheitlicht, URLs auf `extensions.r3d.de` aktualisiert).
+- Manifest aktualisiert:
+  - Plugin-Version auf `6.0.0`.
+  - Update-Server-Pfad auf `r3d_scroll2top.xml` korrigiert.
+- Sys-Sprachstrings auf JED-Namenskonvention fuer den Installnamen angepasst (`Plugin - ...`).
+
 ## [5.3.8] - 2026-05-29
 
 - Release-Uptick fuer Live-Publish auf `extensions.r3d.de`.

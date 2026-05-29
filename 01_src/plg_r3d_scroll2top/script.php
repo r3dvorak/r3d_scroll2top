@@ -2,6 +2,8 @@
 /**
  * @package     Joomla.Plugin
  * @subpackage  System.r3d_scroll2top
+ * @copyright   Copyright (C) 2025 Richard Dvorak
+ * @license     GNU General Public License version 3 or later
  */
 
 declare(strict_types=1);
@@ -9,7 +11,7 @@ declare(strict_types=1);
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Installer\InstallerScript;
-use Joomla\CMS\Filesystem\File;
+use Joomla\Filesystem\File;
 
 /**
  * Installer script for explicit platform constraints.
