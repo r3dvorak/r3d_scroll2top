@@ -4,9 +4,9 @@
  * @subpackage  System.r3d_scroll2top
  * @creation    2025-08-29
  * @author      Richard Dvorak, r3d.de
- * @copyright   Copyright (C) 2025 Richard Dvorak, https://r3d.de
+ * @copyright   Copyright (C) 2025 Richard Dvorak, https://extensions.r3d.de
  * @license     GNU GPL v3 or later (https://www.gnu.org/licenses/gpl-3.0.html)
- * @version     5.3.6
+ * @version     5.3.7
  * @file        plugins/system/r3d_scroll2top/r3d_scroll2top.php
  */
 
@@ -82,10 +82,13 @@ final class PlgSystemR3d_Scroll2top extends CMSPlugin
         $hoverColorAlpha = $this->params->get('hover_color_alpha', '0.7');
         $iconColor = $this->params->get('icon_color', '#ffffff');
         $iconColorAlpha = $this->params->get('icon_color_alpha', '1');
+        $iconHoverColor = $this->params->get('icon_hover_color', '#ffffff');
+        $iconHoverColorAlpha = $this->params->get('icon_hover_color_alpha', '1');
 
         $btnColor = r3d_getRGBA($color, $colorAlpha, '#ff00e6');
         $btnHoverColor = r3d_getRGBA($hoverColor, $hoverColorAlpha, '#00e6ff');
         $iconColorCss = r3d_getRGBA($iconColor, $iconColorAlpha, '#ffffff');
+        $iconHoverColorCss = r3d_getRGBA($iconHoverColor, $iconHoverColorAlpha, '#ffffff');
 
         $position = $this->params->get('position', 'bottom-right');
         $size = (int) $this->params->get('size', 50);
@@ -133,7 +136,7 @@ final class PlgSystemR3d_Scroll2top extends CMSPlugin
             $transform .= 'translateY(' . $iconTranslateY . '%)';
         }
         $transformStyle = $transform !== '' ? '--r3d-icon-transform:' . $transform . ';' : '';
-        $iconStyle = 'display:inline-block;vertical-align:middle;line-height:1;' . $transformStyle . 'color:' . $iconColorCss . ';';
+        $iconStyle = 'display:inline-block;vertical-align:middle;line-height:1;' . $transformStyle;
 
         // Icon-Ausgabe: Alles immer in Wrapper-Span (für Zittern/Animation)
         $iconHtml = '<span class="r3d-scroll2top-icon" style="' . $iconStyle . '">';
@@ -185,6 +188,8 @@ final class PlgSystemR3d_Scroll2top extends CMSPlugin
     width: ' . $size . 'px;
     height: ' . $size . 'px;
     background: ' . $btnColor . ';
+    --r3d-icon-color: ' . $iconColorCss . ';
+    --r3d-icon-hover-color: ' . $iconHoverColorCss . ';
     color: #fff;
     border-radius: 50%;
     text-align: center;
@@ -202,8 +207,13 @@ final class PlgSystemR3d_Scroll2top extends CMSPlugin
     outline: none;
 }
 .r3d-scroll2top-icon {
+    color: var(--r3d-icon-color);
     transform: var(--r3d-icon-transform, none);
     will-change: transform;
+}
+#r3d-scroll2top:focus .r3d-scroll2top-icon,
+#r3d-scroll2top:hover .r3d-scroll2top-icon {
+    color: var(--r3d-icon-hover-color);
 }
 ' . $jitterCss . '
 @media (max-width: 600px) {

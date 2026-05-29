@@ -2,6 +2,16 @@
 
 Alle nennenswerten Aenderungen an diesem Projekt werden hier dokumentiert.
 
+## [5.3.7] - 2026-05-29
+
+- Neue Einstellungsoptionen fuer Icon-Hoverzustand:
+  - `Icon hover color (SVG/Unicode)`
+  - `Icon hover transparency`
+- Runtime erweitert: separates Hover-Farbverhalten fuer SVG/Unicode-Icon via CSS-Variablen.
+- Update-Server-Feed-URL auf `extensions.r3d.de`-Pfad vereinheitlicht:
+  - `https://extensions.r3d.de/extensions/r3d-scroll-to-top-button/pkg_r3d_scroll2top.xml`
+- Installer-Script um Uninstall-Cleanup fuer Legacy-Sprachdateien erweitert.
+
 ## [5.3.6] - 2026-05-29
 
 - Kompatibilitaet fuer Joomla 4.4/5/6 gehaertet:
