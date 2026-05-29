@@ -7,3 +7,6 @@
 02_build/
 03_docs/logs/
 README.local.tmp
+.env
+.env.local
+.env.*.local

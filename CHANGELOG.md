@@ -2,6 +2,11 @@
 
 Alle nennenswerten Aenderungen an diesem Projekt werden hier dokumentiert.
 
+## [5.3.8] - 2026-05-29
+
+- Release-Uptick fuer Live-Publish auf `extensions.r3d.de`.
+- Beibehaltung der neuen Hover-Icon-Einstellungen sowie Joomla-Update-Feed-Anbindung.
+
 ## [5.3.7] - 2026-05-29
 
 - Neue Einstellungsoptionen fuer Icon-Hoverzustand:
