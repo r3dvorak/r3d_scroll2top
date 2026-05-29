@@ -1,0 +1,36 @@
+{
+  "updates": {
+    "baseUrl": "https://extensions.r3d.de/extensions"
+  },
+  "project": {
+    "name": "r3d_scroll2top",
+    "vendor": "r3d",
+    "description": "Joomla System Plugin: R3D Scroll To Top Button",
+    "changelogUrl": "https://github.com/r3dvorak/r3d_scroll2top/blob/main/CHANGELOG.md",
+    "slug": "r3d_scroll2top",
+    "license": "GPL-3.0-or-later",
+    "defaults": {
+      "stage": "",
+      "creationDate": "2025-08-29",
+      "build": 1,
+      "dbTablePrefix": "r3d_scroll2top",
+      "version": "6.0.0",
+      "languagePrefix": "PLG_SYSTEM_R3D_SCROLL2TOP",
+      "extensionTitle": "plg_system_r3d_scroll2top"
+    },
+    "author": {
+      "email": "dev@r3d.de",
+      "url": "https://extensions.r3d.de",
+      "name": "Richard Dvorak"
+    },
+    "year": 2026
+  },
+  "paths": {
+    "updates": "05_updates",
+    "build": "02_build",
+    "src": "01_src",
+    "docs": "03_docs",
+    "dist": "04_dist"
+  },
+  "schemaVersion": "1.3"
+}
